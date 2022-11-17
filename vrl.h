@@ -11,10 +11,7 @@ char* run_vrl_c(char* str, void* program);
 CResult compile_vrl(char* str);
 void* new_runtime();
 CResult runtime_resolve(void* runtime, void* program, char* input);
-
-
-char* run_vrl_c(char* str, void* program);
-void* compile_vrl_c(char* str);
-
+void runtime_clear(void* runtime);
+int runtime_is_empty(void* runtime);
 
 #endif

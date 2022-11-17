@@ -28,3 +28,11 @@ func (r *Runtime) resolve(program *Program, input string) (string, error) {
 
 	return C.GoString((*C.char)(result.value)), nil
 }
+
+func (r *Runtime) clear() {
+	C.runtime_clear(r.p)
+}
+
+func (r *Runtime) isEmpty() bool {
+	return C.runtime_is_empty(r.p) != 0
+}

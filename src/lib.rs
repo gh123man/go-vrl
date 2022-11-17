@@ -73,3 +73,15 @@ pub extern "C" fn runtime_resolve(runtime: *mut Runtime, program: *mut Program, 
         }
     }
 }
+
+#[no_mangle]
+pub extern "C" fn runtime_clear(runtime: *mut Runtime) {
+    let rt = unsafe { runtime.as_mut().unwrap() };
+    rt.clear()
+}
+
+#[no_mangle]
+pub extern "C" fn runtime_is_empty(runtime: *mut Runtime) -> bool {
+    let rt = unsafe { runtime.as_mut().unwrap() };
+    return rt.is_empty()
+}

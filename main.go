@@ -3,9 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	program, err := Compile(`
-	. = replace(string!(.), r'\b\w{4}', "rust", 1)
-	`)
+	program, err := Compile(`. = replace(string!(.), r'\b\w{4}', "rust", 1) `)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -20,4 +18,6 @@ func main() {
 	}
 
 	fmt.Println(res)
+
+	runtime.clear()
 }
