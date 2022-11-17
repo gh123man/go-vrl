@@ -1,0 +1,30 @@
+[package]
+name = "vrl-bridge"
+version = "0.1.0"
+edition = "2021"
+
+[profile.release]
+debug=true
+
+[lib]
+name         = "vrl_bridge"
+# crate-type   = ["rlib", "cdylib"]
+crate-type   = ["staticlib"]
+
+[dependencies]
+libc = "0.2"
+serde_json = "1.0.87"
+
+# TODO: pin to stable version
+value = { git = "https://github.com/vectordotdev/vector", default-features = false }
+vrl = { git = "https://github.com/vectordotdev/vector", default-features = false  }
+vrl-diagnostic = { git = "https://github.com/vectordotdev/vector", package = "vrl-diagnostic"  }
+
+[dependencies.vrl-stdlib]
+package = "vrl-stdlib"
+git = "https://github.com/vectordotdev/vector"
+default-features = false
+features = [
+    "replace",
+    "string",
+]
