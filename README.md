@@ -16,7 +16,7 @@ To use this repo as-is. `./run.sh` to build and run `main.go`
 ### Example
 
 ```go
-program, err := CompileWithExternal(`. = replace(., "go", "rust")`, GetExternalEnv(Bytes, Bytes))
+program, err := CompileWithExternal(`replace(., "go", "rust")`, GetExternalEnv(Bytes, Bytes))
 if err != nil {
     log.Panicln(err)
 }
