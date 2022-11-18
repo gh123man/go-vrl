@@ -14,19 +14,21 @@ Not quite ready yet. It's difficult to distribute a go module that depends on an
 ### Example
 
 ```go
-	program, err := CompileWithExternal(`replace(., "go", "rust")`, GetExternalEnv(Bytes, Bytes))
-	if err != nil {
-		log.Panicln(err)
-	}
+program, err := CompileWithExternal(`replace(., "go", "rust")`, GetExternalEnv(Bytes, Bytes))
+if err != nil {
+  log.Panicln(err)
+}
 
-	runtime := NewRuntime()
-	res, err := runtime.resolve(program, "hello go")
-	if err != nil {
-		log.Panicln(err)
-	}
+runtime := NewRuntime()
+res, err := runtime.resolve(program, "hello go")
+if err != nil {
+  log.Panicln(err)
+}
 
-	fmt.Println(res)
+fmt.Println(res)
 ```
+
+[see `main.go` for more examples](/main.go)
 
 ## What works
 
