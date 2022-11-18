@@ -1,8 +1,31 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+)
 
 func main() {
+	BytesEnv()
+	SimpleDefault()
+}
+
+func BytesEnv() {
+	program, err := CompileWithExternal(`replace(., "go", "rust")`, GetExternalEnv(Bytes, Bytes))
+	if err != nil {
+		log.Panicln(err)
+	}
+
+	runtime := NewRuntime()
+	res, err := runtime.resolve(program, "hello go")
+	if err != nil {
+		log.Panicln(err)
+	}
+
+	fmt.Println(res)
+}
+
+func SimpleDefault() {
 	program, err := Compile(`
 	. = parse_json!(string!(.))
 	del(.foo)
@@ -39,6 +62,5 @@ func main() {
 	}
 
 	fmt.Println(res)
-
 	runtime.clear()
 }
