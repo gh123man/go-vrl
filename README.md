@@ -11,21 +11,28 @@ Experimental go bindings for [Vector Remap Language](https://vector.dev/docs/ref
 
 Not quite ready yet. It's difficult to distribute a go module that depends on an external build system (However I am open to suggestions)
 
+To use this repo as-is. `./run.sh` to build and run `main.go`
+
 ### Example
 
 ```go
-program, err := CompileWithExternal(`replace(., "go", "rust")`, GetExternalEnv(Bytes, Bytes))
+program, err := CompileWithExternal(`. = replace(., "go", "rust")`, GetExternalEnv(Bytes, Bytes))
 if err != nil {
-  log.Panicln(err)
+    log.Panicln(err)
 }
 
 runtime := NewRuntime()
 res, err := runtime.resolve(program, "hello go")
 if err != nil {
-  log.Panicln(err)
+    log.Panicln(err)
 }
 
 fmt.Println(res)
+```
+
+```bash
+$ go run .
+"hello rust"
 ```
 
 [see `main.go` for more examples](/main.go)
