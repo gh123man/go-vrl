@@ -45,4 +45,4 @@ fmt.Println(res)
 - metadata 
 - timezone
 - environment configuration (partially implemented)
-- non-string typed inputs
+- most input types (other than bytes and object)
