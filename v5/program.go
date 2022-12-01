@@ -5,6 +5,7 @@ package govrl
 //#include <string.h>
 //#include <vrl.h>
 //#cgo LDFLAGS: -L${SRCDIR}/target/release -Wl,-rpath,${SRCDIR}/target/release -lvrl_bridge -lm -ldl
+//#cgo darwin,arm64 LDFLAGS: -framework CoreFoundation
 import "C"
 import "unsafe"
 

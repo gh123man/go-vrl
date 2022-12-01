@@ -2,4 +2,4 @@ debug/
 target/
 
 Cargo.lock
-example-govrl
+go-vrl
