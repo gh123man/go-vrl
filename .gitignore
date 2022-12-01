@@ -3,3 +3,11 @@ target/
 
 Cargo.lock
 go-vrl
+
+deps/**/build
+deps/**/.rustc_info.json
+deps/**/.cargo-lock
+deps/**/.fingerprint
+deps/**/deps
+deps/**/*.d
+deps/**/CACHEDIR.TAG

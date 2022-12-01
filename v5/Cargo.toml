@@ -8,8 +8,7 @@ debug=true
 
 [lib]
 name         = "vrl_bridge"
-# crate-type   = ["rlib", "cdylib"]
-crate-type   = ["staticlib"]
+crate-type   = ["cdylib"]
 
 [dependencies]
 libc = "0.2"
