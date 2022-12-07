@@ -16,13 +16,13 @@ To use this repo as-is. `./run.sh` to build and run `main.go`
 ### Example
 
 ```go
-program, err := CompileWithExternal(`replace(., "go", "rust")`, GetExternalEnv(Bytes, Bytes))
+program, err := govrl.CompileWithExternal(`replace(., "go", "rust")`, govrl.GetExternalEnv(govrl.Bytes, govrl.Bytes))
 if err != nil {
     log.Panicln(err)
 }
 
-runtime := NewRuntime()
-res, err := runtime.resolve(program, "hello go")
+runtime := govrl.NewRuntime()
+res, err := runtime.Resolve(program, "hello go")
 if err != nil {
     log.Panicln(err)
 }
@@ -35,7 +35,7 @@ $ go run .
 "hello rust"
 ```
 
-[see `main.go` for more examples](/main.go)
+[see `./example/main.go` for more examples](./example/main.go)
 
 ## What works
 
@@ -43,13 +43,13 @@ $ go run .
   - Supports bytes and object external environment kinds
 - Initializing the VRL runtime including:
   - `resolve` (run) the compled program
-  - `clear` 
+  - `clear`
   - `is_empty`
 
 ## What doesn't work/missing bindings
 
 - secrets
-- metadata 
+- metadata
 - timezone
 - environment configuration (partially implemented)
 - most input types (other than bytes and object)

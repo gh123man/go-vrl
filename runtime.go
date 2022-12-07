@@ -1,4 +1,4 @@
-package main
+package govrl
 
 //#include <stdio.h>
 //#include <stdlib.h>
@@ -16,7 +16,7 @@ func NewRuntime() *Runtime {
 	return &runtime
 }
 
-func (r *Runtime) resolve(program *Program, input string) (string, error) {
+func (r *Runtime) Resolve(program *Program, input string) (string, error) {
 	cs := C.CString(input)
 	defer C.free(unsafe.Pointer(cs))
 	result := C.runtime_resolve(r.p, program.p, cs)
@@ -29,10 +29,10 @@ func (r *Runtime) resolve(program *Program, input string) (string, error) {
 	return C.GoString((*C.char)(result.value)), nil
 }
 
-func (r *Runtime) clear() {
+func (r *Runtime) Clear() {
 	C.runtime_clear(r.p)
 }
 
-func (r *Runtime) isEmpty() bool {
+func (r *Runtime) IsEmpty() bool {
 	return C.runtime_is_empty(r.p) != 0
 }

@@ -3,21 +3,23 @@ package main
 import (
 	"fmt"
 	"log"
+
+	govrl "github.com/gh123man/go-vrl"
 )
 
 func main() {
-	BytesEnv()
-	SimpleDefault()
+	bytesEnv()
+	simpleDefault()
 }
 
-func BytesEnv() {
-	program, err := CompileWithExternal(`replace(., "go", "rust")`, GetExternalEnv(Bytes, Bytes))
+func bytesEnv() {
+	program, err := govrl.CompileWithExternal(`replace(., "go", "rust")`, govrl.GetExternalEnv(govrl.Bytes, govrl.Bytes))
 	if err != nil {
 		log.Panicln(err)
 	}
 
-	runtime := NewRuntime()
-	res, err := runtime.resolve(program, "hello go")
+	runtime := govrl.NewRuntime()
+	res, err := runtime.Resolve(program, "hello go")
 	if err != nil {
 		log.Panicln(err)
 	}
@@ -25,8 +27,8 @@ func BytesEnv() {
 	fmt.Println(res)
 }
 
-func SimpleDefault() {
-	program, err := Compile(`
+func simpleDefault() {
+	program, err := govrl.Compile(`
 	. = parse_json!(string!(.))
 	del(.foo)
 
@@ -48,9 +50,9 @@ func SimpleDefault() {
 		return
 	}
 
-	runtime := NewRuntime()
+	runtime := govrl.NewRuntime()
 
-	res, err := runtime.resolve(program, `{
+	res, err := runtime.Resolve(program, `{
 		"message": "Hello VRL",
 		"foo": "delete me",
 		"http_status": "200"
@@ -62,5 +64,5 @@ func SimpleDefault() {
 	}
 
 	fmt.Println(res)
-	runtime.clear()
+	runtime.Clear()
 }
