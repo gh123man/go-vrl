@@ -2,7 +2,6 @@ package govrl
 
 import (
 	"context"
-	_ "embed"
 	"fmt"
 	"log"
 	"runtime"
@@ -12,45 +11,10 @@ import (
 	"github.com/tetratelabs/wazero/imports/wasi_snapshot_preview1"
 )
 
-func unpackUInt64(val uint64) (uint32, uint32) {
-	return uint32(val >> 32), uint32(val)
-}
+//go:embed target/wasm32-wasi/release/vrl_bridge.wasm
+var wasmBytes []byte
 
-type Program struct {
-	ptr  uint32
-	wasm *VrlInterface
-}
-
-type Runtime struct {
-	ptr  uint32
-	wasm *VrlInterface
-}
-
-func (r *Runtime) Resolve(program *Program, input string) (string, error) {
-	runtimeResolveFunc := r.wasm.mod.ExportedFunction("runtime_resolve")
-
-	inputWasmString := r.wasm.newWasmString(input)
-
-	results, err := runtimeResolveFunc.Call(r.wasm.ctx, uint64(r.ptr), uint64(program.ptr), uint64(inputWasmString.ptr), uint64(inputWasmString.length))
-	if err != nil {
-		return "", nil
-	}
-
-	resultPtr, resultLength := unpackUInt64(results[0])
-	resultStringBytes, ok := r.wasm.mod.Memory().Read(r.wasm.ctx, resultPtr, resultLength)
-	if !ok {
-		log.Panicf("Memory.Read(%d, %d) out of range of memory size %d",
-			resultPtr, resultLength, r.wasm.mod.Memory().Size(r.wasm.ctx))
-	}
-	res := string(resultStringBytes)
-	return res, nil
-}
-
-func (r *Runtime) Clear() {
-	// TODO
-}
-
-type VrlInterface struct {
+type WasmInterface struct {
 	ctx     context.Context
 	mod     api.Module
 	runtime wazero.Runtime
@@ -61,10 +25,7 @@ type WasmString struct {
 	length uint64
 }
 
-//go:embed target/wasm32-wasi/release/vrl_bridge.wasm
-var wasmBytes []byte
-
-func NewVrlInterface(ctx context.Context) *VrlInterface {
+func NewVrlInterface(ctx context.Context) *WasmInterface {
 	// Create a new WebAssembly Runtime.
 	r := wazero.NewRuntime(ctx)
 
@@ -76,12 +37,12 @@ func NewVrlInterface(ctx context.Context) *VrlInterface {
 
 	// TODO check for expected exports, return error if they're not present
 
-	return &VrlInterface{
+	return &WasmInterface{
 		ctx: ctx, mod: mod, runtime: r,
 	}
 }
 
-func (wr *VrlInterface) Compile(program string) (*Program, error) {
+func (wr *WasmInterface) Compile(program string) (*Program, error) {
 	compileVrlFunc := wr.mod.ExportedFunction("compile_vrl")
 
 	ws := wr.newWasmString(program)
@@ -99,7 +60,7 @@ func (wr *VrlInterface) Compile(program string) (*Program, error) {
 	return &Program{programPtr, wr}, nil
 }
 
-func (wr *VrlInterface) NewRuntime() (*Runtime, error) {
+func (wr *WasmInterface) NewRuntime() (*Runtime, error) {
 	newRuntimeFunc := wr.mod.ExportedFunction("new_runtime")
 
 	results, err := newRuntimeFunc.Call(wr.ctx)
@@ -118,7 +79,7 @@ func (wr *VrlInterface) NewRuntime() (*Runtime, error) {
 
 // Helpers
 
-func (wr *VrlInterface) newWasmString(input string) *WasmString {
+func (wr *WasmInterface) newWasmString(input string) *WasmString {
 	inputSize := uint64(len(input))
 	ptr := wr.allocate(inputSize)
 
@@ -138,7 +99,7 @@ func (wr *VrlInterface) newWasmString(input string) *WasmString {
 	return &ws
 }
 
-func (wr *VrlInterface) allocate(numBytes uint64) uint64 {
+func (wr *WasmInterface) allocate(numBytes uint64) uint64 {
 	allocate := wr.mod.ExportedFunction("allocate")
 
 	results, err := allocate.Call(wr.ctx, numBytes)
@@ -149,12 +110,16 @@ func (wr *VrlInterface) allocate(numBytes uint64) uint64 {
 	return results[0]
 }
 
-func (wr *VrlInterface) deallocate(ptr uint64, size uint64) {
+func (wr *WasmInterface) deallocate(ptr uint64, size uint64) {
 	deallocate := wr.mod.ExportedFunction("deallocate")
 
 	deallocate.Call(wr.ctx, ptr, size)
 }
 
-func (wr *VrlInterface) Close() {
+func (wr *WasmInterface) Close() {
 	wr.runtime.Close(wr.ctx)
+}
+
+func unpackUInt64(val uint64) (uint32, uint32) {
+	return uint32(val >> 32), uint32(val)
 }

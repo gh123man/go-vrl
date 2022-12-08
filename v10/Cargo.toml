@@ -23,6 +23,7 @@ vrl-diagnostic = { git = "https://github.com/vectordotdev/vector", package = "vr
 package = "vrl-stdlib"
 git = "https://github.com/vectordotdev/vector"
 default-features = false
+# list of wasm-supported features taken from https://github.com/vectordotdev/vector/blob/master/lib/vrl/web-playground/Cargo.toml
 features = [
     "append",
     "array",
