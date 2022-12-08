@@ -5,6 +5,20 @@ Experimental go bindings for [Vector Remap Language](https://vector.dev/docs/ref
 
 > Vector Remap Language (VRL) is an expression-oriented language designed for transforming observability data (logs and metrics) in a safe and performant manner. It features a simple syntax and a rich set of built-in functions tailored specifically to observability use cases.
 
+## Versions
+There are two major versions of this module and consumers must choose which is a
+better fit for their use case.
+
+They aim to support as similar an interface as possible, with the key
+distinction being how VRL programs are executed.
+
+- V5 uses `cgo` to interface with a custom library built from VRL. This has
+  better performance with the main downside being that it relies on `cgo`, which
+  some applications may not care for.
+- V10 uses `wasm` to execute VRL. It performs worse, on the order of 2-3 times
+  slower, however VRL is quite efficient so this still offers relatively good
+  absolute performance.
+
 ## Usage
 
 ### Building and importing
