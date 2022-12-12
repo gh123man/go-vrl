@@ -23,21 +23,28 @@ distinction being how VRL programs are executed.
 
 ### Feature Support
 
-|                           | V5 | V10 |
-|-------------------------- | -- | --- |
-| Compiling a VRL Program   | ✅ | ✅  |
-| Running a VRL Program     | ✅ | ✅  |
-| VRL Runtime "Basic"\* API     | ✅ | ✅  |
-| Environment Kinds     | ❌ | 'Byte' and 'Object'  |
-| Secrets                   | ❌ | ❌  |
-| Metadata                  | ❌ | ❌  |
-| Timezones                 | ❌ | ❌  |
-| Requires CGO              | ❌ | ✅  |
+|                           | V5                  | V10 |
+|-------------------------- | ------------------- | --- |
+| Compiling a VRL Program   | ✅                  | ✅  |
+| Running a VRL Program     | ✅                  | ✅  |
+| VRL Runtime "Basic"\* API | ✅                  | ✅  |
+| Environment Kinds         | 'Byte' and 'Object' | ❌  |
+| Secrets                   | ❌                  | ❌  |
+| Metadata                  | ❌                  | ❌  |
+| Timezones                 | ❌                  | ❌  |
+| Requires CGO              | ✅                  | ❌  |
+| Full VRL stdlib support   | ✅                  | ❌\* |
+
 
 \* "Basic" API currently means:
-- `resolve` (run) the compled program
+- `compile`
+- `resolve` (run) the compiled program
 - `clear`
 - `is_empty`
+
+\* WASM supports almost most of VRL's stdlib functions, the unsupported ones can
+be found [with this GH issues
+search](https://github.com/vectordotdev/vector/issues?q=is%3Aopen+is%3Aissue+label%3A%22vrl%3A+playground%22+wasm+compatible)
 
 ### Building and importing
 
