@@ -14,8 +14,8 @@ func main() {
 
 func simpleDefault() {
 	ctx := context.Background()
-	vrlInterface := govrl.NewVrlInterface(ctx)
-	program, err := vrlInterface.Compile(`
+	wasmInterface := govrl.NewWasmInterface(ctx)
+	program, err := wasmInterface.Compile(`
 	. = parse_json!(string!(.))
 	del(.foo)
 
@@ -37,7 +37,7 @@ func simpleDefault() {
 		return
 	}
 
-	runtime, err := vrlInterface.NewRuntime()
+	runtime, err := wasmInterface.NewRuntime()
 	if err != nil {
 		log.Panicln(err)
 	}

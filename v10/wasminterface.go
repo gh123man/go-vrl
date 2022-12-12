@@ -2,6 +2,7 @@ package govrl
 
 import (
 	"context"
+	_ "embed"
 	"fmt"
 	"log"
 	"runtime"
@@ -25,7 +26,7 @@ type WasmString struct {
 	length uint64
 }
 
-func NewVrlInterface(ctx context.Context) *WasmInterface {
+func NewWasmInterface(ctx context.Context) *WasmInterface {
 	// Create a new WebAssembly Runtime.
 	r := wazero.NewRuntime(ctx)
 

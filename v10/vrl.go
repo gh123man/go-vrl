@@ -1,7 +1,6 @@
 package govrl
 
 import (
-	_ "embed"
 	"log"
 )
 
@@ -38,13 +37,17 @@ func (r *Runtime) Resolve(program *Program, input string) (string, error) {
 func (r *Runtime) Clear() error {
 	runtimeClearFunc := r.wasm.mod.ExportedFunction("runtime_clear")
 
-	results, err := runtimeClearFunc.Call(r.wasm.ctx, uint64(r.ptr))
+	_, err := runtimeClearFunc.Call(r.wasm.ctx, uint64(r.ptr))
 	return err
 }
 
-func (r *Runtime) IsEmpty() bool {
+func (r *Runtime) IsEmpty() (bool, error) {
 	runtimeIsEmptyFunc := r.wasm.mod.ExportedFunction("runtime_is_empty")
 
 	results, err := runtimeIsEmptyFunc.Call(r.wasm.ctx, uint64(r.ptr))
-	return err
+
+	if err != nil {
+		return false, err
+	}
+	return results[0] > 0, err
 }
