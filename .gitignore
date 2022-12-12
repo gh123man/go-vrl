@@ -1,13 +1,8 @@
-debug/
-target/
 
 Cargo.lock
 go-vrl
+example-govrl
 
-deps/**/build
-deps/**/.rustc_info.json
-deps/**/.cargo-lock
-deps/**/.fingerprint
-deps/**/deps
-deps/**/*.d
-deps/**/CACHEDIR.TAG
+v5/target
+v10/target
+

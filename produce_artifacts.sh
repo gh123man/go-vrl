@@ -6,4 +6,8 @@ if [[ "$arch" == "aarch64" ]]; then
 fi
 plat=$(echo $(uname -s) | awk '{print tolower($0)}')
 
-CARGO_TARGET_DIR="deps/${plat}_${arch}" cargo build --release
+$(cd v5; cargo build --release)
+$(cd v10; cargo build --release --target wasm32-wasi)
+
+cp "v5/target/release/libvrl_bridge.a" "v5/deps/${plat}_${arch}/"
+cp "v10/target/wasm32-wasi/release/vrl_bridge.wasm" "v10/deps/"

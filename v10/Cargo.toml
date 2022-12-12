@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [profile.release]
-debug=true
+debug=0
 
 [lib]
 name         = "vrl_bridge"

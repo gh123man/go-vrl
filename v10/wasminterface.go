@@ -12,7 +12,7 @@ import (
 	"github.com/tetratelabs/wazero/imports/wasi_snapshot_preview1"
 )
 
-//go:embed target/wasm32-wasi/release/vrl_bridge.wasm
+//go:embed deps/vrl_bridge.wasm
 var wasmBytes []byte
 
 type WasmInterface struct {
