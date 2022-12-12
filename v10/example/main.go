@@ -1,34 +1,21 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 
-	govrl "github.com/gh123man/go-vrl"
+	govrl "github.com/gh123man/go-vrl/v10"
 )
 
 func main() {
-	bytesEnv()
 	simpleDefault()
 }
 
-func bytesEnv() {
-	program, err := govrl.CompileWithExternal(`replace(., "go", "rust")`, govrl.GetExternalEnv(govrl.Bytes, govrl.Bytes))
-	if err != nil {
-		log.Panicln(err)
-	}
-
-	runtime := govrl.NewRuntime()
-	res, err := runtime.Resolve(program, "hello go")
-	if err != nil {
-		log.Panicln(err)
-	}
-
-	fmt.Println(res)
-}
-
 func simpleDefault() {
-	program, err := govrl.Compile(`
+	ctx := context.Background()
+	wasmInterface := govrl.NewWasmInterface(ctx)
+	program, err := wasmInterface.Compile(`
 	. = parse_json!(string!(.))
 	del(.foo)
 
@@ -46,11 +33,14 @@ func simpleDefault() {
 	`)
 
 	if err != nil {
-		fmt.Println(err)
+		log.Panicln(err)
 		return
 	}
 
-	runtime := govrl.NewRuntime()
+	runtime, err := wasmInterface.NewRuntime()
+	if err != nil {
+		log.Panicln(err)
+	}
 
 	res, err := runtime.Resolve(program, `{
 		"message": "Hello VRL",
