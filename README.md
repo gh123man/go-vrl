@@ -48,11 +48,9 @@ search](https://github.com/vectordotdev/vector/issues?q=is%3Aopen+is%3Aissue+lab
 
 ### Building and importing
 
-Not quite ready yet. It's difficult to distribute a go module that depends on an external build system, we have some ideas though.
-
-To use this repo as-is, its required to manually compile the rust dependency.
-For V5: `cd v5; cargo build --release; cd example/; go run .`
-For V10: `cd v10; cargo build --target wasm32-wasi --release; cd example/; go run .`
+There are pre-built libraries (both static libs for v5 and wasm for v10)
+available in-tree.
+They can be updated using `./produce_artifacts.sh`
 
 ### Examples
 

@@ -4,7 +4,6 @@ package govrl
 //#include <stdlib.h>
 //#include <string.h>
 //#include <vrl.h>
-//#cgo LDFLAGS: -L${SRCDIR}/target/release -Wl,-rpath,${SRCDIR}/target/release -lvrl_bridge -lm -ldl
 import "C"
 import "unsafe"
 

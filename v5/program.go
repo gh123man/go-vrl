@@ -4,7 +4,11 @@ package govrl
 //#include <stdlib.h>
 //#include <string.h>
 //#include <vrl.h>
-//#cgo LDFLAGS: -L${SRCDIR}/target/release -Wl,-rpath,${SRCDIR}/target/release -lvrl_bridge -lm -ldl
+//#cgo LDFLAGS: -lvrl_bridge -lm
+//#cgo darwin,amd64 LDFLAGS: -L${SRCDIR}/deps/darwin_x86_64/release -Wl,-rpath,${SRCDIR}/deps/darwin_x86_64/release -framework CoreFoundation
+//#cgo darwin,arm64 LDFLAGS: -L${SRCDIR}/deps/darwin_arm64/release -Wl,-rpath,${SRCDIR}/deps/darwin_arm64/release -framework CoreFoundation
+//#cgo linux,amd64 LDFLAGS: -L${SRCDIR}/deps/linux_x86_64/release -Wl,-rpath,${SRCDIR}/deps/linux_x86_64/release -ldl
+//#cgo linux,arm64 LDFLAGS: -L${SRCDIR}/deps/linux_arm64/release -Wl,-rpath,${SRCDIR}/deps/linux_arm64/release -ldl
 import "C"
 import "unsafe"
 

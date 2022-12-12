@@ -4,11 +4,14 @@ version = "0.1.0"
 edition = "2021"
 
 [profile.release]
-debug=true
+# It would be nice to have debug info, at least `debug=1` (line-level granularity)
+# But unfortunately it balloons the binary size too much
+# With level 0, darwin_arm64 == 57.1
+# With level 1, darwin_arm64 == 149Mi
+debug = 0
 
 [lib]
 name         = "vrl_bridge"
-# crate-type   = ["rlib", "cdylib"]
 crate-type   = ["staticlib"]
 
 [dependencies]
