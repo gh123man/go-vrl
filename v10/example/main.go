@@ -29,7 +29,7 @@ func simpleDefault() {
 	} else {
 		.status = "error"
 	}
-	.
+	. = encode_json(.)
 	`)
 
 	if err != nil {

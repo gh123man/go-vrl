@@ -20,8 +20,6 @@ pub struct CResult<T> {
     error: *mut libc::c_char
 }
 
-
-
 // Compiler
 
 #[no_mangle]
@@ -103,7 +101,7 @@ pub extern "C" fn runtime_resolve(runtime: *mut Runtime, program: *mut Program, 
     match rt.resolve(&mut target, &prog, &TimeZone::Local) {
         Ok(res) => {
             return CResult {
-                value: CString::new(res.to_string().as_bytes()).unwrap().into_raw(),
+                value: CString::new(res.as_str().unwrap().as_bytes()).unwrap().into_raw(),
                 error: std::ptr::null_mut()
             }
         }

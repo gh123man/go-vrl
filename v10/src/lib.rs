@@ -67,7 +67,7 @@ pub extern "C" fn runtime_resolve(
 
     match rt.resolve(&mut target, &prog, &TimeZone::Local) {
         Ok(res) => {
-            let s = res.to_string();
+            let s = res.as_str().unwrap();
             return ((s.as_ptr() as u64) << 32) | s.len() as u64;
         }
         Err(_err) => {
