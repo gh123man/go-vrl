@@ -75,7 +75,7 @@ fmt.Println(res)
 
 ```bash
 $ go run .
-"hello rust"
+hello rust
 ```
 
 [see `./v5/example/main.go` for more examples](./v5/example/main.go)
