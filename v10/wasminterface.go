@@ -31,7 +31,7 @@ func NewWasmInterface(ctx context.Context) *WasmInterface {
 	r := wazero.NewRuntime(ctx)
 
 	wasi_snapshot_preview1.MustInstantiate(ctx, r)
-	mod, err := r.InstantiateModuleFromBinary(ctx, wasmBytes)
+	mod, err := r.Instantiate(ctx, wasmBytes)
 	if err != nil {
 		log.Panicln(err)
 	}
@@ -85,9 +85,9 @@ func (wr *WasmInterface) newWasmString(input string) *WasmString {
 	ptr := wr.allocate(inputSize)
 
 	// The pointer is a linear memory offset, which is where we write the input string.
-	if !wr.mod.Memory().Write(wr.ctx, uint32(ptr), []byte(input)) {
+	if !wr.mod.Memory().Write(uint32(ptr), []byte(input)) {
 		log.Panicf("Memory.Write(%d, %d) out of range of memory size %d",
-			ptr, len(input), wr.mod.Memory().Size(wr.ctx))
+			ptr, len(input), wr.mod.Memory().Size())
 	}
 
 	ws := WasmString{
